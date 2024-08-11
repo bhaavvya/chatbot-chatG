@@ -1,0 +1,10 @@
+nltk
+streamlit
+pdfplumber
+pymupdf
+python-pptx
+Pillow
+torch
+torchvision
+python-docx
+groq
