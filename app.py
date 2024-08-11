@@ -4,14 +4,6 @@ import nltk
 import os
 import os
 import nltk
-
-nltk_data_dir = "./resources/nltk_data_dir/"
-if not os.path.exists(nltk_data_dir):
-    os.makedirs(nltk_data_dir, exist_ok=True)
-nltk.data.path.clear()
-nltk.data.path.append(nltk_data_dir)
-nltk.download("stopwords", download_dir=nltk_data_dir)
-nltk.download('punkt', download_dir=nltk_data_dir)
 import io
 import streamlit as st
 import pdfplumber
@@ -25,7 +17,6 @@ import torchvision.transforms as transforms
 from torchvision import models
 import re
 from docx import Document
-from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import groq
 
@@ -45,9 +36,8 @@ graph_model.eval()
 def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces/newlines with a single space
     text = text.strip()  # Remove leading and trailing whitespace
-    stop_words = set(stopwords.words('english'))
     word_tokens = word_tokenize(text)
-    filtered_text = [word for word in word_tokens if word.lower() not in stop_words]
+    filtered_text = [word for word in word_tokens]
     return ' '.join(filtered_text)
 
 def preprocess_image(image_path):
