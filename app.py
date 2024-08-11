@@ -1,6 +1,7 @@
-import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
+
+import nltk
 import os
 import io
 import streamlit as st
@@ -18,6 +19,7 @@ from docx import Document
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import groq
+
 
 # Define paths and configurations
 UPLOAD_FOLDER = 'uploads'
