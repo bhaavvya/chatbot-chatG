@@ -7,3 +7,4 @@ pillow
 torch
 torchvision
 groq
+python-docx
