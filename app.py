@@ -17,7 +17,6 @@ import torchvision.transforms as transforms
 from torchvision import models
 import re
 from docx import Document
-from nltk.tokenize import word_tokenize
 import groq
 
 
@@ -36,8 +35,7 @@ graph_model.eval()
 def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces/newlines with a single space
     text = text.strip()  # Remove leading and trailing whitespace
-    word_tokens = word_tokenize(text)
-    filtered_text = [word for word in word_tokens]
+    filtered_text = [word for word in text]
     return ' '.join(filtered_text)
 
 def preprocess_image(image_path):
