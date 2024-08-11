@@ -1,8 +1,6 @@
 
 
 import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
 import os
 import io
 import streamlit as st
@@ -21,7 +19,13 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import groq
 
-
+# Download NLTK resources
+try:
+    nltk.data.find('tokenizers/punkt')
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('punkt')
+    nltk.download('stopwords')
 # Define paths and configurations
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
