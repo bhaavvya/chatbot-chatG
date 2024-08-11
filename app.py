@@ -36,7 +36,7 @@ def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces/newlines with a single space
     text = text.strip()  # Remove leading and trailing whitespace
     filtered_text = [word for word in text]
-    return ' '.join(filtered_text)
+    return ''.join(filtered_text)
 
 def preprocess_image(image_path):
     input_image = Image.open(image_path).convert("RGB")
