@@ -92,11 +92,6 @@ def read_word_file(file_path):
         full_text.append(para.text)
     return '\n'.join(full_text)
 
-def chunk_text(text, chunk_size=1000):
-    """Splits the text into smaller chunks."""
-    for i in range(0, len(text), chunk_size):
-        yield text[i:i + chunk_size]
-
 def summ(text, chunk_size=1000):
     summaries = []
     api_key = "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"
@@ -117,20 +112,53 @@ def summ(text, chunk_size=1000):
     combined_summary = " ".join(summaries)
     return combined_summary
 
+#def answer_question(question, context):
+#   api_key = "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"
+#    client = groq.Client(api_key=api_key)
+#   response = client.chat.completions.create(
+#       messages=[
+#           {
+#               "role": "user",
+#               "content": context + "\n\nQuestion: " + question,
+#           }
+#       ],
+#       model="llama3-8b-8192",
+#   )
+#   return response.choices[0].message.content
+
+def chunk_text(text, chunk_size=1000):
+    """Splits the text into smaller chunks."""
+    for i in range(0, len(text), chunk_size):
+        yield text[i:i + chunk_size]
+
 def answer_question(question, context):
     api_key = "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"
     client = groq.Client(api_key=api_key)
-    response = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": context + "\n\nQuestion: " + question,
-            }
-        ],
-        model="llama3-8b-8192",
-    )
-    return response.choices[0].message.content
+    best_answer = ""
+    best_score = float('-inf')
 
+    for chunk in chunk_text(context, chunk_size=1000):
+        try:
+            response = client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "user",
+                        "content": chunk + "\n\nQuestion: " + question,
+                    }
+                ],
+                model="llama3-8b-8192",
+            )
+            answer = response.choices[0].message.content
+            
+            # Simple scoring mechanism, customize as needed
+            score = len(answer)  # This could be based on answer length, specific keywords, etc.
+            if score > best_score:
+                best_score = score
+                best_answer = answer
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+    return best_answer
 # Streamlit UI
 st.title("Chatbot - ChatG")
 st.write("Upload a PDF, PPT, or Word document, and ask questions about its content.")
