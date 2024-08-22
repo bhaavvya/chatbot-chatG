@@ -19,7 +19,18 @@ import re
 from docx import Document
 import groq
 
-
+stopwords = {
+    'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves',
+    'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their',
+    'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are',
+    'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an',
+    'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about',
+    'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 
+    'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when',
+    'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor',
+    'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should',
+    'now'
+}
 # Define paths and configurations
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -32,11 +43,14 @@ graph_model.fc = torch.nn.Linear(graph_model.fc.in_features, num_classes)
 graph_model.eval()
 
 # Define helper functions
+
+    
 def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces/newlines with a single space
     text = text.strip()  # Remove leading and trailing whitespace
-    filtered_text = [word for word in text]
-    return ''.join(filtered_text)
+    words = text.split()
+    filtered_words = [word for word in words if word.lower() not in stopwords]
+    return ''.join(filtered_words)
 
 def preprocess_image(image_path):
     input_image = Image.open(image_path).convert("RGB")
