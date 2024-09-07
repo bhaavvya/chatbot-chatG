@@ -79,7 +79,9 @@ def extract_images_from_ppt(ppt_path):
 
 def extract_text_from_pdf(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
-        return "\n".join(page.extract_text() for page in pdf.pages)
+        extracted_text = [preprocess_text(page.extract_text() or "") for page in pdf.pages]
+        return "\n".join(extracted_text)
+        #return "\n".join(page.extract_text() for page in pdf.pages)
 
 def extract_text_from_ppt(ppt_path):
     prs = Presentation(ppt_path)
