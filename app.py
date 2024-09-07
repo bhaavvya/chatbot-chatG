@@ -134,7 +134,7 @@ def chunk_text(text, chunk_size=1000):
         yield text[i:i + chunk_size]
 
 def answer_question(question, context):
-    api_key = "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"
+    api_key = "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"
     client = groq.Client(api_key=api_key)
     best_answer = ""
     best_score = float('-inf')
