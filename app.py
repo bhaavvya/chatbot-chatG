@@ -96,7 +96,7 @@ def read_word_file(file_path):
 
 def summ(text, chunk_size=1000):
     summaries = []
-    api_key = "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"
+    api_key = "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"
     client = groq.Client(api_key=api_key)
 
     for chunk in chunk_text(text, 1000):
@@ -134,7 +134,7 @@ def chunk_text(text, chunk_size=1000):
         yield text[i:i + chunk_size]
 
 def answer_question(question, context):
-    api_key = "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"
+    api_key = "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"
     client = groq.Client(api_key=api_key)
     best_answer = ""
     best_score = float('-inf')
